@@ -5,7 +5,7 @@ ZSH=$HOME/.oh-my-zsh
 echo "You need zsh and git for this script to work, do you have them installed? [y/n]"
 read answer
 
-if[[ $answer == "y" || $answer == "Y" ]]; then
+if [[ $answer == "y" || $answer == "Y" ]]; then
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
     export ZSH_CUSTOM=~/.oh-my-zsh/custom
     git clone https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k
