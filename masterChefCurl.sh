@@ -1,6 +1,6 @@
 #!/bin/zsh
 
-COUNT=6
+COUNT=1
 while read -r url; do
     NAME="Episode $COUNT.mp4"
     echo "Downloading $NAME"
