@@ -13,7 +13,7 @@ while [[ -z "$projectName" ]]; do
 done
 
 mvn archetype:generate \
-  -DgroupId="$username" \
+  -DgroupId="com.$username" \
   -DartifactId="$projectName" \
   -DarchetypeArtifactId=maven-archetype-quickstart \
   -DinteractiveMode=false
