@@ -12,7 +12,7 @@ case "$(uname -s)" in
     open -na "Vivaldi" --args --new-window "${urls[1]}"
     sleep 2
     open -na  "Vivaldi" --args "${urls[2]}"
-    sleep 2
+  sleep 2
     open -na  "Vivaldi" --args "${urls[3]}"
     ;;
   Linux*)
