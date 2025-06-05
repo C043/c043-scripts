@@ -2,7 +2,7 @@
 
 import puppeteer from "puppeteer";
 import dotenv from "dotenv";
-dotenv.config();
+dotenv.config({ path: "/usr/local/lib/node_modules/speech/.env" });
 
 function generateEmail() {
   const name = Math.random().toString(36).substring(2, 11);
@@ -21,7 +21,7 @@ async function createAccount(email) {
     "https://speechify.com/onboarding/mobile/quiz/general/paywall/?source_page=_&source_category=home&source_locale=en&selected=gwyneth&speed=300"
   );
 
-  await new Promise((resolve, reject) => setTimeout(resolve, 5000));
+  await new Promise((resolve, reject) => setTimeout(resolve, 3000));
 
   await page
     .locator(
@@ -29,7 +29,11 @@ async function createAccount(email) {
     )
     .click();
   await page.type('input[type="email"]', email.address);
+
+  console.log(process.env.PASSWORD);
   await page.type('input[type="password"]', process.env.PASSWORD);
+
+  await new Promise((resolve, reject) => setTimeout(resolve, 500));
 
   await page.click('button[type="submit"]');
 
