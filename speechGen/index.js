@@ -2,7 +2,12 @@
 
 import puppeteer from "puppeteer";
 import dotenv from "dotenv";
-dotenv.config({ path: "/usr/local/lib/node_modules/speech/.env" });
+import { dirname, resolve } from "path";
+import { fileURLToPath } from "url";
+
+const _filename = fileURLToPath(import.meta.url);
+const _dirname = dirname(_filename);
+dotenv.config({ path: resolve(_dirname, ".env") });
 
 function generateEmail() {
   const name = Math.random().toString(36).substring(2, 11);
@@ -30,7 +35,6 @@ async function createAccount(email) {
     .click();
   await page.type('input[type="email"]', email.address);
 
-  console.log(process.env.PASSWORD);
   await page.type('input[type="password"]', process.env.PASSWORD);
 
   await new Promise((resolve, reject) => setTimeout(resolve, 500));
