@@ -1,0 +1,19 @@
+{
+  "name": "endelgen",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "endelGen": "./bin/index.js",
+    "test": "./bin/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@mailsac/api": "^1.0.8",
+    "dotenv": "^16.5.0",
+    "puppeteer": "^24.10.0"
+  }
+}
