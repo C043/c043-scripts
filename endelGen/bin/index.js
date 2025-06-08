@@ -9,7 +9,6 @@ import { fileURLToPath } from "url";
 const _filename = fileURLToPath(import.meta.url);
 const _dirname = dirname(_filename);
 dotenv.config({ path: resolve(_dirname, "../.env") });
-console.log(process.env.API_KEY);
 
 const mailsac = new Mailsac({
   headers: { "Mailsac-Key": process.env.API_KEY }
