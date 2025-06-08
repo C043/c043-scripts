@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "type": "module",
+  "bin": {
+    "endelGen": "./bin/index.js"
+  },
   "scripts": {
-    "endelGen": "./bin/index.js",
     "test": "./bin/index.js"
   },
   "keywords": [],
