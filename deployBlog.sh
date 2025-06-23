@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-cd $HOME/GitHub/coding-blog
+cd /home/c043/GitHub/coding-blog
 git switch develop
 if ! git diff-index --quiet HEAD --; then
 	echo "You have uncommitted changes on develop. Exiting."
