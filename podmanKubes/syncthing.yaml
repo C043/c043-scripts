@@ -17,7 +17,7 @@ metadata:
     io.podman.annotations.init/syncthing: "FALSE"
     io.podman.annotations.privileged/syncthing: "FALSE"
     io.podman.annotations.publish-all/syncthing: "FALSE"
-  creationTimestamp: "2025-06-22T10:06:12Z"
+  creationTimestamp: "2025-06-23T20:22:28Z"
   labels:
     app: syncthing-pod
   name: syncthing-pod

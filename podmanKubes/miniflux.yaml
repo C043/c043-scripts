@@ -1,0 +1,90 @@
+# Save the output of this file and use kubectl create -f to import
+# it into Kubernetes.
+#
+# Created with podman-4.3.1
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    com.docker.official-images.bashbrew.arch/miniflux-db: arm64v8
+    io.kubernetes.cri-o.ContainerType/miniflux-app: container
+    io.kubernetes.cri-o.ContainerType/miniflux-db: container
+    io.kubernetes.cri-o.SandboxID/miniflux-app: 3a9ce1e0f84e2a710e1fc047ab440b9722985168d182ccaa5141ee1888a73f0
+    io.kubernetes.cri-o.SandboxID/miniflux-db: 3a9ce1e0f84e2a710e1fc047ab440b9722985168d182ccaa5141ee1888a73f0
+    io.kubernetes.cri-o.TTY/miniflux-app: "false"
+    io.kubernetes.cri-o.TTY/miniflux-db: "false"
+    io.podman.annotations.autoremove/miniflux-app: "FALSE"
+    io.podman.annotations.autoremove/miniflux-db: "FALSE"
+    io.podman.annotations.init/miniflux-app: "FALSE"
+    io.podman.annotations.init/miniflux-db: "FALSE"
+    io.podman.annotations.privileged/miniflux-app: "FALSE"
+    io.podman.annotations.privileged/miniflux-db: "FALSE"
+    io.podman.annotations.publish-all/miniflux-app: "FALSE"
+    io.podman.annotations.publish-all/miniflux-db: "FALSE"
+    org.opencontainers.image.base.digest/miniflux-db: sha256:6e748d5b2b6c313522604e8309634b9406fc637c4cf11a6e1294d2d4
+    org.opencontainers.image.base.name/miniflux-db: debian:bookworm-slim
+    org.opencontainers.image.created/miniflux-db: "2025-06-06T18:27:47Z"
+    org.opencontainers.image.revision/miniflux-db: 2c6fe8daca9d2ccc143afe6b1cdbc1eb80379d3f
+    org.opencontainers.image.source/miniflux-db: https://github.com/docker-library/postgres.git#2c6fe8daca9d2ccc
+    org.opencontainers.image.url/miniflux-db: https://hub.docker.com/_/postgres
+    org.opencontainers.image.version/miniflux-db: "15.13"
+  creationTimestamp: "2025-06-24T10:30:32Z"
+  labels:
+    app: miniflux-pod
+  name: miniflux-pod
+spec:
+  automountServiceAccountToken: false
+  containers:
+  - args:
+    - postgres
+    env:
+    - name: POSTGRES_USER
+      value: miniflux
+    - name: POSTGRES_PASSWORD
+      value: supersecret
+    - name: POSTGRES_DB
+      value: miniflux
+    image: docker.io/library/postgres:15
+    name: miniflux-db
+    ports:
+    - containerPort: 8080
+      hostPort: 8080
+    resources: {}
+    securityContext:
+      capabilities:
+        drop:
+        - CAP_MKNOD
+        - CAP_NET_RAW
+        - CAP_AUDIT_WRITE
+    volumeMounts:
+    - mountPath: /var/lib/postgresql/data
+      name: miniflux-pgdata-pvc
+  - env:
+    - name: RUN_MIGRATIONS
+      value: "1"
+    - name: CREATE_ADMIN
+      value: "1"
+    - name: DATABASE_URL
+      value: postgres://miniflux:supersecret@localhost/miniflux?sslmode=disable
+    - name: ADMIN_USERNAME
+      value: admin
+    - name: ADMIN_PASSWORD
+      value: adminpass
+    image: docker.io/miniflux/miniflux:latest
+    name: miniflux-app
+    resources: {}
+    securityContext:
+      capabilities:
+        drop:
+        - CAP_MKNOD
+        - CAP_NET_RAW
+        - CAP_AUDIT_WRITE
+  enableServiceLinks: false
+  hostname: miniflux-pod
+  restartPolicy: Always
+  volumes:
+  - name: miniflux-pgdata-pvc
+    persistentVolumeClaim:
+      claimName: miniflux-pgdata
+status: {}
+

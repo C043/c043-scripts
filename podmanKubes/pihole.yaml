@@ -11,13 +11,13 @@ apiVersion: v1
 kind: Pod
 metadata:
   annotations:
-    bind-mount-options: /home/c043/pihole/etc-pihole:Z
+    bind-mount-options: /home/c043/pihole/etc-dnsmasq.d:Z
     io.kubernetes.cri-o.TTY/pihole: "false"
     io.podman.annotations.autoremove/pihole: "FALSE"
     io.podman.annotations.init/pihole: "FALSE"
     io.podman.annotations.privileged/pihole: "FALSE"
     io.podman.annotations.publish-all/pihole: "FALSE"
-  creationTimestamp: "2025-06-23T20:23:27Z"
+  creationTimestamp: "2025-06-24T10:25:19Z"
   labels:
     app: pihole-pod
   name: pihole-pod
@@ -38,20 +38,20 @@ spec:
         - CAP_NET_RAW
         - CAP_AUDIT_WRITE
     volumeMounts:
-    - mountPath: /etc/dnsmasq.d
-      name: home-c043-pihole-etc-dnsmasq.d-host-0
     - mountPath: /etc/pihole
-      name: home-c043-pihole-etc-pihole-host-1
+      name: home-c043-pihole-etc-pihole-host-0
+    - mountPath: /etc/dnsmasq.d
+      name: home-c043-pihole-etc-dnsmasq.d-host-1
   enableServiceLinks: false
   hostNetwork: true
   hostname: HomeLab
   volumes:
   - hostPath:
-      path: /home/c043/pihole/etc-dnsmasq.d
-      type: Directory
-    name: home-c043-pihole-etc-dnsmasq.d-host-0
-  - hostPath:
       path: /home/c043/pihole/etc-pihole
       type: Directory
-    name: home-c043-pihole-etc-pihole-host-1
+    name: home-c043-pihole-etc-pihole-host-0
+  - hostPath:
+      path: /home/c043/pihole/etc-dnsmasq.d
+      type: Directory
+    name: home-c043-pihole-etc-dnsmasq.d-host-1
 
