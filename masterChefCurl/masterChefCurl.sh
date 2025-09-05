@@ -10,4 +10,4 @@ while read -r url; do
     
     curl -o "$NAME" "$url"
     COUNT=$(($COUNT + 1))
-done < "/home/c043/c043-scripts/masterChefCurl/urls.txt"
+done < "/home/c043/GitHub/c043-scripts/masterChefCurl/urls.txt"
