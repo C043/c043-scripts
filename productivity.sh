@@ -17,11 +17,11 @@ case "$(uname -s)" in
     ;;
   Linux*)
     # ---- Linux (original commands) ----
-    nohup vivaldi.vivaldi-stable --new-window "${urls[1]}" > /dev/null 2>&1 &
+    nohup vivaldi --new-window "${urls[1]}" > /dev/null 2>&1 &
     sleep 2
-    nohup vivaldi.vivaldi-stable "${urls[2]}" > /dev/null 2>&1 &
+    nohup vivaldi "${urls[2]}" > /dev/null 2>&1 &
     sleep 2
-    nohup vivaldi.vivaldi-stable "${urls[3]}" > /dev/null 2>&1 &
+    nohup vivaldi "${urls[3]}" > /dev/null 2>&1 &
     ;;
   *)
     echo "Unsupported platform: $(uname -s)" >&2
