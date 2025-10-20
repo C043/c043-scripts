@@ -9,11 +9,11 @@ urls=(
 case "$(uname -s)" in
   Darwin*)
     # ---- macOS ----
-    open -na "Vivaldi" --args --new-window "${urls[1]}"
+    open -na "Google Chrome" --args --new-window "${urls[1]}"
     sleep 2
-    open -na  "Vivaldi" --args "${urls[2]}"
+    open -na  "Google Chrome" --args "${urls[2]}"
   sleep 2
-    open -na  "Vivaldi" --args "${urls[3]}"
+    open -na  "Google Chrome" --args "${urls[3]}"
     ;;
   Linux*)
     # ---- Linux (original commands) ----
