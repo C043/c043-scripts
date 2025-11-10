@@ -9,19 +9,19 @@ urls=(
 case "$(uname -s)" in
   Darwin*)
     # ---- macOS ----
-    open -na "Vivaldi" --args --new-window "${urls[1]}"
+    open -na "Google Chrome" --args --new-window "${urls[1]}"
     sleep 2
-    open -na  "Vivaldi" --args "${urls[2]}"
+    open -na  "Google Chrome" --args "${urls[2]}"
   sleep 2
-    open -na  "Vivaldi" --args "${urls[3]}"
+    open -na  "Google Chrome" --args "${urls[3]}"
     ;;
   Linux*)
     # ---- Linux (original commands) ----
-    nohup vivaldi.vivaldi-stable --new-window "${urls[1]}" > /dev/null 2>&1 &
+    nohup google-chrome --new-window "${urls[1]}" > /dev/null 2>&1 &
     sleep 2
-    nohup vivaldi.vivaldi-stable "${urls[2]}" > /dev/null 2>&1 &
+    nohup google-chrome "${urls[2]}" > /dev/null 2>&1 &
     sleep 2
-    nohup vivaldi.vivaldi-stable "${urls[3]}" > /dev/null 2>&1 &
+    nohup google-chrome "${urls[3]}" > /dev/null 2>&1 &
     ;;
   *)
     echo "Unsupported platform: $(uname -s)" >&2
