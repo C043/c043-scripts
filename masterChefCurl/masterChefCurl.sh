@@ -1,6 +1,7 @@
-#!/bin/zsh
+#!/bin/bash
+read -p "Da quale puntata iniziamo? " COUNT
+echo "Perfetto, iniziamo dalla puntata $COUNT!"
 
-COUNT=1
 while read -r url; do
     NAME="Episode $COUNT.mp4"
     echo "Downloading $NAME"
