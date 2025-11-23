@@ -1,6 +1,22 @@
 #!/bin/bash
 
-read -p "Enter the repository name: " REPO
+set -e
+
+# Try to get repo name from origin URL
+REPO=$(basename -s .git "$(git config --get remote.origin.url 2>/dev/null)")
+
+# Fallback to directory name if Git URL unavailable
+if [ -z "$REPO" ]; then
+	REPO=$(basename "$(pwd)")
+fi
+
+# Ask for confirmation
+echo "Detected repository name: $REPO"
+read -p "Is this correct? (y/n) " CONFIRM
+
+if [[ "$CONFIRM" != "y" && "$CONFIRM" != "Y" ]]; then
+	read -p "Enter the correct repository name: " REPO
+fi
 
 FORGEJO_URL="http://100.87.246.98:5001"
 
