@@ -1,4 +1,4 @@
-!#/bin/bash
+#!/bin/bash
 
 read -p "Enter the repository name: " REPO
 
@@ -19,18 +19,24 @@ echo "Forgejo user: $FJ_USER"
 echo "Forgejo URL:  $FORGEJO_URL"
 echo
 
+echo "Removing all origin push URLs..."
+while read -r url; do
+	if [ -n "$url" ]; then
+		git remote set-url --push --delete origin "$url"
+	fi
+done < <(git remote get-url --push origin 2>/dev/null || true)
+
 # 1. Ensure origin fetch URL remains GitHub
 git remote set-url origin "https://github.com/$GH_USER/$REPO.git"
 
 # 2. Clear existing push URLs (for safety)
 git remote set-url --push origin "https://github.com/$GH_USER/$REPO.git"
 
-# 3. Add GitHub as push target
-git remote set-url --push --add origin "https://github.com/$GH_USER/$REPO.git"
-
-# 4. Add Forgejo as second push target
+# 3. Add Forgejo as second push target
 git remote set-url --push --add origin "$FORGEJO_URL/$FJ_USER/$REPO.git"
 
 echo
 echo "Done! 'origin' now pushes to BOTH GitHub and Forgejo."
 echo
+
+git remote -v
