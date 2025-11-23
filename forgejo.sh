@@ -1,0 +1,36 @@
+!#/bin/bash
+
+read -p "Enter the repository name: " REPO
+
+FORGEJO_URL="http://100.87.246.98:5001"
+
+FJ_USER="c043"
+
+# Your GitHub username (auto-detected if present)
+GH_USER=$(git config --get remote.origin.url | sed -E 's#.*github.com[:/]+([^/]+)/.*#\1#')
+
+if [ -z "$GH_USER" ]; then
+	read -p "Enter your GitHub username: " GH_USER
+fi
+
+echo "Configuring mirrored push for repo: $REPO"
+echo "GitHub user:  $GH_USER"
+echo "Forgejo user: $FJ_USER"
+echo "Forgejo URL:  $FORGEJO_URL"
+echo
+
+# 1. Ensure origin fetch URL remains GitHub
+git remote set-url origin "https://github.com/$GH_USER/$REPO.git"
+
+# 2. Clear existing push URLs (for safety)
+git remote set-url --push origin "https://github.com/$GH_USER/$REPO.git"
+
+# 3. Add GitHub as push target
+git remote set-url --push --add origin "https://github.com/$GH_USER/$REPO.git"
+
+# 4. Add Forgejo as second push target
+git remote set-url --push --add origin "$FORGEJO_URL/$FJ_USER/$REPO.git"
+
+echo
+echo "Done! 'origin' now pushes to BOTH GitHub and Forgejo."
+echo
