@@ -35,12 +35,18 @@ echo "Forgejo user: $FJ_USER"
 echo "Forgejo URL:  $FORGEJO_URL"
 echo
 
-echo "Removing all origin push URLs..."
-while read -r url; do
-	if [ -n "$url" ]; then
-		git remote set-url --push --delete origin "$url"
-	fi
-done < <(git remote get-url --push origin 2>/dev/null || true)
+echo "Checking for existing push URLs..."
+
+EXISTING_PUSHURLS=$(git config --get-all remote.origin.pushurl || true)
+
+if [ -z "$EXISTING_PUSHURLS" ]; then
+	echo "No explicit pushurl config for 'origin' — nothing to remove."
+else
+	echo "Removing existing pushurl entries for 'origin'..."
+	echo "$EXISTING_PUSHURLS" | while read -r url; do
+		[ -n "$url" ] && git remote set-url --push --delete origin "$url"
+	done
+fi
 
 # 1. Ensure origin fetch URL remains GitHub
 git remote set-url origin "https://github.com/$GH_USER/$REPO.git"
