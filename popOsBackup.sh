@@ -19,6 +19,16 @@ dconf dump /org/gnome/ >gnome-settings.ini
 echo "Backing up GNOME active extensions..."
 gnome-extensions list --enabled >gnome-extensions.txt
 
+echo "Backing up global node packages..."
+npm ls -g --depth=0 --json |
+	jq -r '.dependencies
+      | to_entries[]
+      | select((.value.link // false) != true)
+      | select((.value.resolved|tostring|test("^file:")|not)
+               and (.value.from|tostring|test("^file:")|not))
+      | select(.key != "npm" and .key != "corepack")
+      | .key' >npm-globals.txt
+
 echo "Backing up local appImages..."
 ls /usr/local/bin/ >appImages.txt
 ls "$HOME/.local/share/applications/" >desktopFiles.txt
