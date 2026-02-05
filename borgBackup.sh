@@ -9,7 +9,7 @@ BACKUP_USER="c043"
 REPO_BASE="/media/c043/Drive/borg"
 
 HOST="$(hostname -s)"
-REPO="ssh://${BACKUP_USER}@${BACKUP_HOST}:${REPO_BASE}/${HOST}"
+REPO="ssh://${BACKUP_USER}@${BACKUP_HOST}${REPO_BASE}/${HOST}"
 ARCHIVE="${HOST}-$(date +%F-%H%M)"
 
 BASE_HOME="/home/c043"
