@@ -42,7 +42,15 @@ chmod 600 "$PKG_DIR/"*
 # 2) POSTGRES LOGICAL DUMPS (ONLINE)
 # ==========================================================
 echo "• Dumping Postgres databases (if any)"
-mapfile -t PG_CONTAINERS < <(docker ps -q --filter ancestor=postgres || true)
+
+mapfile -t RUNNING_CIDS < <(docker ps -q || true)
+PG_CONTAINERS=()
+
+for cid in "${RUNNING_CIDS[@]:-}"; do
+	img="$(docker inspect "$cid" --format '{{.Config.Image}}' 2>/dev/null || true)"
+	# matches postgres, postgres:16, postgres:15, postgres:16-alpine, etc.
+	[[ "$img" == postgres* ]] && PG_CONTAINERS+=("$cid")
+done
 
 if [[ "${#PG_CONTAINERS[@]}" -eq 0 ]]; then
 	echo "  (no postgres containers found)"
