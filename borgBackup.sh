@@ -4,7 +4,7 @@ set -euo pipefail
 # ==========================================================
 # CONFIG
 # ==========================================================
-BACKUP_HOST="pop-os" # Tailscale hostname
+BACKUP_HOST="100.66.151.63" # Tailscale hostname
 BACKUP_USER="c043"
 REPO_BASE="/media/c043/Drive/borg"
 
