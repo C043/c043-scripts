@@ -9,3 +9,4 @@ urls.txt
 .venv
 state.json
 comicBookWorkflowOptimized.json
+pullList.json
