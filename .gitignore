@@ -1,4 +1,11 @@
+# Node
 node_modules
 .env
+
+# Master Chef curl
 urls.txt
+
+# comicBookSnatcher
+.venv
+state.json
 comicBookWorkflowOptimized.json
