@@ -24,7 +24,7 @@ def getCurrentTopWpm():
 
     label = soup.find(string=re.compile(r"Top speed:"))
     span = label.find_next("span") if label else None
-    value = span.get_text(strip=True).split("w")[0] if span else None
+    value = span.get_text(strip=True).split(".")[0] if span else None
 
     return value
 
@@ -58,12 +58,12 @@ def saveState(state):
 
 
 def updateWpmGist(wpm: str):
-    gist_id = "eefea5f58960ee35e2379cde975f3589"
+    gist_id = "1c7c7b37ca386063f46de348852e33c0"
     token = os.getenv("GITHUB_TOKEN")
 
     url = f"https://api.github.com/gists/{gist_id}"
 
-    payload = {"files": {"stats.txt": {"content": f"{wpm}"}}}
+    payload = {"files": {"wpm.txt": {"content": f"{wpm}"}}}
 
     headers = {
         "Accept": "application/vnd.github+json",
