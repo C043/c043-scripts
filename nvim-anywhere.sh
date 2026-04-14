@@ -1,8 +1,8 @@
-#!/bin/zsh
+#!/bin/sh
 
 TMPFILE=$(mktemp --suffix=.md)
 
-kitty nvim "$TMPFILE"
+kitty vim "$TMPFILE"
 cat "$TMPFILE" | xclip -selection clipboard
 
 xdotool key --clearmodifiers ctrl+v
