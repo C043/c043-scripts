@@ -43,6 +43,16 @@ def getGithubContributions():
         print(f"github contributions not valid JSON: {e}")
 
 
+def getLatestBlogs():
+    try:
+        url = "https://blog.mariofragnito.it/posts/index.xml"
+        res = requests.get(url)
+        res.raise_for_status()
+        return res.text
+    except requests.RequestException as e:
+        print(f"Failed to get italian latest blog posts: {e}")
+
+
 def loadState():
     stateFile = Path("state.json")
 
@@ -112,3 +122,23 @@ def updateGithubContributionsGist(contributions: dict[str, Any]):
         res.raise_for_status()
     except requests.RequestException as e:
         print(f"Failed to update githubContributions.json: {e}")
+
+
+def updateLatestBlogPostsGist(xml: str):
+    gist_id = "fd7b7e21352e830fce668281eb057e33"
+    token = os.getenv("GITHUB_TOKEN")
+
+    url = f"https://api.github.com/gists/{gist_id}"
+
+    payload = {"files": {"latestBlogs.xml": {"content": xml}}}
+
+    headers = {
+        "Accept": "application/vnd.github+json",
+        "Authorization": f"Bearer {token}",
+    }
+
+    try:
+        res = requests.patch(url, headers=headers, json=payload)
+        res.raise_for_status()
+    except requests.RequestException as e:
+        print(f"Failed to update latestBlogs gist: {e}")

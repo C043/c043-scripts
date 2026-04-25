@@ -1,9 +1,11 @@
 from utils import (
     getCurrentTopWpm,
     getGithubContributions,
+    getLatestBlogs,
     loadState,
     saveState,
     updateGithubContributionsGist,
+    updateLatestBlogPostsGist,
     updateWpmGist,
 )
 
@@ -21,3 +23,7 @@ if wpm and wpm != previous:
 githubContributions = getGithubContributions()
 if githubContributions:
     updateGithubContributionsGist(githubContributions)
+
+latestBlogs = getLatestBlogs()
+if latestBlogs:
+    updateLatestBlogPostsGist(latestBlogs)
