@@ -29,6 +29,19 @@ def getCurrentTopWpm():
     return value
 
 
+def getGithubContributions():
+    try:
+        url = "https://github-contributions.vercel.app/api/v1/c043"
+        res = requests.get(url)
+        res.raise_for_status()
+        data = res.json()
+        return data
+    except requests.RequestException as e:
+        print(f"Failed to fetch github contributions: {e}")
+    except ValueError as e:
+        print(f"github contributions not valid JSON: {e}")
+
+
 def loadState():
     stateFile = Path("state.json")
 
