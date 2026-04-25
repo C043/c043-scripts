@@ -53,6 +53,16 @@ def getLatestBlogs():
         print(f"Failed to get italian latest blog posts: {e}")
 
 
+def getLatestEnglishBlogs():
+    try:
+        url = "https://blog.mariofragnito.it/en-gb/posts/index.xml"
+        res = requests.get(url)
+        res.raise_for_status()
+        return res.text
+    except requests.RequestException as e:
+        print(f"Failed to get english latest blog posts: {e}")
+
+
 def loadState():
     stateFile = Path("state.json")
 
