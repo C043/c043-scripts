@@ -6,6 +6,7 @@ from utils import (
     loadState,
     saveState,
     updateGithubContributionsGist,
+    updateLatestBlogEnglishPostsGist,
     updateLatestBlogPostsGist,
     updateWpmGist,
 )
@@ -30,3 +31,5 @@ if latestBlogs:
     updateLatestBlogPostsGist(latestBlogs)
 
 latestEnglishBlogs = getLatestEnglishBlogs()
+if latestEnglishBlogs:
+    updateLatestBlogEnglishPostsGist(latestEnglishBlogs)

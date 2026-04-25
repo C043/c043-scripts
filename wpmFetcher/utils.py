@@ -152,3 +152,23 @@ def updateLatestBlogPostsGist(xml: str):
         res.raise_for_status()
     except requests.RequestException as e:
         print(f"Failed to update latestBlogs gist: {e}")
+
+
+def updateLatestBlogEnglishPostsGist(xml: str):
+    gist_id = "806e66f2159d3841677ff2dbe6659fbf"
+    token = os.getenv("GITHUB_TOKEN")
+
+    url = f"https://api.github.com/gists/{gist_id}"
+
+    payload = {"files": {"latestBlogsEN.xml": {"content": xml}}}
+
+    headers = {
+        "Accept": "application/vnd.github+json",
+        "Authorization": f"Bearer {token}",
+    }
+
+    try:
+        res = requests.patch(url, headers=headers, json=payload)
+        res.raise_for_status()
+    except requests.RequestException as e:
+        print(f"Failed to update latestBlogsEN gist: {e}")
