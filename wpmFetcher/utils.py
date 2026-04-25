@@ -2,6 +2,7 @@ import json
 import os
 import re
 from pathlib import Path
+from typing import Any
 
 import requests
 from bs4 import BeautifulSoup
@@ -89,3 +90,25 @@ def updateWpmGist(wpm: str):
         res.raise_for_status()
     except requests.RequestException as e:
         print(f"Failed to update wpm gist: {e}")
+
+
+def updateGithubContributionsGist(contributions: dict[str, Any]):
+    gist_id = "e687124951d31484cf5ae3ef9ca2ad00"
+    token = os.getenv("GITHUB_TOKEN")
+
+    url = f"https://api.github.com/gists/{gist_id}"
+
+    payload = {
+        "files": {"githubContributions.json": {"content": json.dumps(contributions)}}
+    }
+
+    headers = {
+        "Accept": "application/vnd.github+json",
+        "Authorization": f"Bearer {token}",
+    }
+
+    try:
+        res = requests.patch(url, headers=headers, json=payload)
+        res.raise_for_status()
+    except requests.RequestException as e:
+        print(f"Failed to update githubContributions.json: {e}")

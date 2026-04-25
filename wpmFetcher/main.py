@@ -1,4 +1,11 @@
-from utils import getCurrentTopWpm, loadState, saveState, updateWpmGist
+from utils import (
+    getCurrentTopWpm,
+    getGithubContributions,
+    loadState,
+    saveState,
+    updateGithubContributionsGist,
+    updateWpmGist,
+)
 
 state = loadState()
 key = "wpm"
@@ -10,3 +17,7 @@ if wpm and wpm != previous:
     updateWpmGist(wpm)
     state[key] = wpm
     saveState(state)
+
+githubContributions = getGithubContributions()
+if githubContributions:
+    updateGithubContributionsGist(githubContributions)
