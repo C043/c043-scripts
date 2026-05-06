@@ -11,7 +11,7 @@ if ! git push --progress "$@" 2> >(tee "$tmp_err" >&2); then
         "remote: Repository not found\.|fatal: repository '.*' not found|remote: Permission to .* denied|ERROR: Permission to .* denied|requested URL returned error: 403" \
         "$tmp_err"; then
         gh auth switch
-        git push
+        git push --progress "$@"
     else
         cat "$tmp_err" >&2
         exit 1
