@@ -3,7 +3,7 @@
 urls=(
     "https://webmail.register.it/appsuite/#!!&app=io.ox/mail&folder=default0/INBOX"
     "https://chat.google.com/app/home"
-    "https://trello.com/b/fGWIkmKH/stocktitan"
+    "https://trello.com/b/3VlJIXrb/forge"
 )
 
 case "$(uname -s)" in
