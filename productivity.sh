@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 urls=(
     "https://webmail.register.it/appsuite/#!!&app=io.ox/mail&folder=default0/INBOX"
@@ -17,11 +17,11 @@ case "$(uname -s)" in
         ;;
     Linux*)
         # ---- Linux (original commands) ----
-        nohup google-chrome --new-window "${urls[1]}" >/dev/null 2>&1 &
+        nohup google-chrome-stable --new-window "${urls[0]}" >/dev/null 2>&1 &
         sleep 2
-        nohup google-chrome "${urls[2]}" >/dev/null 2>&1 &
+        nohup google-chrome-stable "${urls[1]}" >/dev/null 2>&1 &
         sleep 2
-        nohup google-chrome "${urls[3]}" >/dev/null 2>&1 &
+        nohup google-chrome-stable "${urls[2]}" >/dev/null 2>&1 &
         ;;
     *)
         echo "Unsupported platform: $(uname -s)" >&2
