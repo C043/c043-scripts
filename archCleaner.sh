@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/sh
 
 sudo pacman -Sc
 sudo pacman -Qdtq | sudo pacman -Rs -

@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/sh
 
 TEXT=$(xclip -selection clipboard -o)
 

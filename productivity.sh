@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/sh
 
 urls=(
     "https://webmail.register.it/appsuite/#!!&app=io.ox/mail&folder=default0/INBOX"
