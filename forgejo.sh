@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 set -e
 
@@ -7,7 +7,7 @@ REPO=$(basename -s .git "$(git config --get remote.origin.url 2>/dev/null)")
 
 # Fallback to directory name if Git URL unavailable
 if [ -z "$REPO" ]; then
-	REPO=$(basename "$(pwd)")
+    REPO=$(basename "$(pwd)")
 fi
 
 # Ask for confirmation
@@ -15,7 +15,7 @@ echo "Detected repository name: $REPO"
 read -p "Is this correct? (y/n) " CONFIRM
 
 if [[ "$CONFIRM" != "y" && "$CONFIRM" != "Y" ]]; then
-	read -p "Enter the correct repository name: " REPO
+    read -p "Enter the correct repository name: " REPO
 fi
 
 FORGEJO_URL="http://100.87.246.98:5001"
@@ -26,7 +26,7 @@ FJ_USER="c043"
 GH_USER=$(git config --get remote.origin.url | sed -E 's#.*github.com[:/]+([^/]+)/.*#\1#')
 
 if [ -z "$GH_USER" ]; then
-	read -p "Enter your GitHub username: " GH_USER
+    read -p "Enter your GitHub username: " GH_USER
 fi
 
 echo "Configuring mirrored push for repo: $REPO"
@@ -40,12 +40,12 @@ echo "Checking for existing push URLs..."
 EXISTING_PUSHURLS=$(git config --get-all remote.origin.pushurl || true)
 
 if [ -z "$EXISTING_PUSHURLS" ]; then
-	echo "No explicit pushurl config for 'origin' — nothing to remove."
+    echo "No explicit pushurl config for 'origin' — nothing to remove."
 else
-	echo "Removing existing pushurl entries for 'origin'..."
-	echo "$EXISTING_PUSHURLS" | while read -r url; do
-		[ -n "$url" ] && git remote set-url --push --delete origin "$url"
-	done
+    echo "Removing existing pushurl entries for 'origin'..."
+    echo "$EXISTING_PUSHURLS" | while read -r url; do
+        [ -n "$url" ] && git remote set-url --push --delete origin "$url"
+    done
 fi
 
 # 1. Ensure origin fetch URL remains GitHub
