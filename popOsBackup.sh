@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 set -euo pipefail
 
@@ -21,7 +21,7 @@ gnome-extensions list --enabled >gnome-extensions.txt
 
 echo "Backing up global node packages..."
 npm ls -g --depth=0 --json |
-	jq -r '.dependencies
+jq -r '.dependencies
       | to_entries[]
       | select((.value.link // false) != true)
       | select((.value.resolved|tostring|test("^file:")|not)
@@ -35,8 +35,8 @@ ls "$HOME/.local/share/applications/" >desktopFiles.txt
 
 echo "Backing up system settings from /etc and local fonts..."
 sudo tar --warning=none -czf etc-backup.tar.gz \
-	-C / etc/fstab etc/apt/sources.list.d etc/apt/trusted.gpg.d \
-	-C "$HOME" .local/share/fonts/
+    -C / etc/fstab etc/apt/sources.list.d etc/apt/trusted.gpg.d \
+    -C "$HOME" .local/share/fonts/
 sudo chown "$USER:$USER" etc-backup.tar.gz
 
 echo "Backup done."

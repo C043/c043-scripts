@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/env sh
 set -euo pipefail
 
 # ==========================================================
@@ -47,30 +47,30 @@ mapfile -t RUNNING_CIDS < <(docker ps -q || true)
 PG_CONTAINERS=()
 
 for cid in "${RUNNING_CIDS[@]:-}"; do
-	img="$(docker inspect "$cid" --format '{{.Config.Image}}' 2>/dev/null || true)"
-	# matches postgres, postgres:16, postgres:15, postgres:16-alpine, etc.
-	[[ "$img" == postgres* ]] && PG_CONTAINERS+=("$cid")
+    img="$(docker inspect "$cid" --format '{{.Config.Image}}' 2>/dev/null || true)"
+    # matches postgres, postgres:16, postgres:15, postgres:16-alpine, etc.
+    [[ "$img" == postgres* ]] && PG_CONTAINERS+=("$cid")
 done
 
 if [[ "${#PG_CONTAINERS[@]}" -eq 0 ]]; then
-	echo "  (no postgres containers found)"
+    echo "  (no postgres containers found)"
 else
-	for cid in "${PG_CONTAINERS[@]}"; do
-		name="$(docker inspect "$cid" --format '{{.Name}}' | sed 's#^/##')"
-		user="$(docker exec "$cid" sh -lc 'echo ${POSTGRES_USER:-postgres}' 2>/dev/null || echo postgres)"
-		pass="$(docker exec "$cid" sh -lc 'echo ${POSTGRES_PASSWORD:-}' 2>/dev/null || true)"
+    for cid in "${PG_CONTAINERS[@]}"; do
+        name="$(docker inspect "$cid" --format '{{.Name}}' | sed 's#^/##')"
+        user="$(docker exec "$cid" sh -lc 'echo ${POSTGRES_USER:-postgres}' 2>/dev/null || echo postgres)"
+        pass="$(docker exec "$cid" sh -lc 'echo ${POSTGRES_PASSWORD:-}' 2>/dev/null || true)"
 
-		out="${DB_DIR}/${name}_pg_dumpall.sql"
-		echo "  - $name → $out"
+        out="${DB_DIR}/${name}_pg_dumpall.sql"
+        echo "  - $name → $out"
 
-		if [[ -n "$pass" ]]; then
-			docker exec "$cid" sh -lc "PGPASSWORD='$pass' pg_dumpall -U '$user'" >"$out"
-		else
-			docker exec "$cid" sh -lc "pg_dumpall -U '$user'" >"$out"
-		fi
+        if [[ -n "$pass" ]]; then
+            docker exec "$cid" sh -lc "PGPASSWORD='$pass' pg_dumpall -U '$user'" >"$out"
+        else
+            docker exec "$cid" sh -lc "pg_dumpall -U '$user'" >"$out"
+        fi
 
-		chmod 600 "$out"
-	done
+        chmod 600 "$out"
+    done
 fi
 
 # ==========================================================
@@ -81,54 +81,54 @@ echo "• Discovering Docker bind mounts"
 declare -A BIND_PATHS=()
 
 while IFS= read -r src; do
-	# Skip docker.sock
-	[[ "$src" == "/var/run/docker.sock" ]] && continue
+    # Skip docker.sock
+    [[ "$src" == "/var/run/docker.sock" ]] && continue
 
-	# Exclude Jellyfin media
-	[[ "$src" == /mnt/ssd/jellyfin* ]] && continue
+    # Exclude Jellyfin media
+    [[ "$src" == /mnt/ssd/jellyfin* ]] && continue
 
-	# Only real paths
-	[[ -e "$src" ]] || continue
+    # Only real paths
+    [[ -e "$src" ]] || continue
 
-	BIND_PATHS["$src"]=1
-done < <(
-	docker ps -aq | xargs -r docker inspect \
-		--format '{{range .Mounts}}{{if eq .Type "bind"}}{{.Source}}{{"\n"}}{{end}}{{end}}'
+    BIND_PATHS["$src"]=1
+    done < <(
+    docker ps -aq | xargs -r docker inspect \
+        --format '{{range .Mounts}}{{if eq .Type "bind"}}{{.Source}}{{"\n"}}{{end}}{{end}}'
 )
 
 # ==========================================================
 # 4) BUILD INCLUDE LIST
 # ==========================================================
 INCLUDES=(
-	/etc
-	/root
-	/usr/local
-	/opt
-	/var/spool/cron
-	/var/lib/docker/volumes
-	"$BACKUPS_DIR"
-	"$BASE_HOME"
+    /etc
+    /root
+    /usr/local
+    /opt
+    /var/spool/cron
+    /var/lib/docker/volumes
+    "$BACKUPS_DIR"
+    "$BASE_HOME"
 )
 
 for p in "${!BIND_PATHS[@]}"; do
-	INCLUDES+=("$p")
+    INCLUDES+=("$p")
 done
 
 # ==========================================================
 # 5) EXCLUDES
 # ==========================================================
 EXCLUDES=(
-	/proc
-	/sys
-	/dev
-	/run
-	/tmp
-	/mnt/ssd/jellyfin
+    /proc
+    /sys
+    /dev
+    /run
+    /tmp
+    /mnt/ssd/jellyfin
 )
 
 EXCLUDE_FLAGS=()
 for e in "${EXCLUDES[@]}"; do
-	EXCLUDE_FLAGS+=(--exclude "$e")
+    EXCLUDE_FLAGS+=(--exclude "$e")
 done
 
 # ==========================================================
@@ -136,19 +136,19 @@ done
 # ==========================================================
 echo "• Running Borg backup"
 borg create \
-	--stats \
-	--compression zstd \
-	"${EXCLUDE_FLAGS[@]}" \
-	"${REPO}::${ARCHIVE}" \
-	"${INCLUDES[@]}"
+    --stats \
+    --compression zstd \
+    "${EXCLUDE_FLAGS[@]}" \
+    "${REPO}::${ARCHIVE}" \
+    "${INCLUDES[@]}"
 
 # ==========================================================
 # 7) RETENTION
 # ==========================================================
 echo "• Pruning old backups"
 borg prune -v "$REPO" \
-	--keep-daily=7 \
-	--keep-weekly=4 \
-	--keep-monthly=6
+    --keep-daily=7 \
+    --keep-weekly=4 \
+    --keep-monthly=6
 
 echo "✅ Backup completed successfully: $(date -Is)"

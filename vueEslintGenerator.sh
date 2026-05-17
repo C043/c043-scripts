@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Create eslint.config.mjs in current directory
 touch eslint.config.js

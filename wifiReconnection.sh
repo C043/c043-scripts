@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/env sh
 TARGET=google.com
 IFACE=wlan0             # adjust interface name
 CON_NAME="FASTWEB-RGFPEA"    # NetworkManager connection profile

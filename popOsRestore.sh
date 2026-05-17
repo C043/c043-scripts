@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 set -euo pipefail
 
@@ -7,7 +7,7 @@ sudo tar xzf etc-backup.tar.gz -C /
 sudo apt-get update
 
 if [ -d "$HOME/.local/share/fonts" ]; then
-	sudo chown -R "$USER:$USER" "$HOME/.local/share/fonts" && fc-cache -f
+    sudo chown -R "$USER:$USER" "$HOME/.local/share/fonts" && fc-cache -f
 fi
 
 echo "Installing APT packages..."
@@ -22,14 +22,14 @@ systemctl --user start hintsd
 
 echo "Installing node..."
 export NVM_DIR="$HOME/.nvm"
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | sh
 # nuova shell oppure risource lo script:
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 nvm install node
 
 echo "Installing global node packages..."
 if [ -s npm-globals.txt ]; then
-	npm install -g $(cat npm-globals.txt)
+    npm install -g $(cat npm-globals.txt)
 fi
 
 echo "Installing snap packages..."
