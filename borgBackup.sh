@@ -1,12 +1,12 @@
-#!/bin/env sh
+#!/usr/bin/env bash
 set -euo pipefail
 
 # ==========================================================
 # CONFIG
 # ==========================================================
-BACKUP_HOST="100.66.151.63" # Tailscale hostname
+BACKUP_HOST="100.98.59.61" # Tailscale hostname
 BACKUP_USER="c043"
-REPO_BASE="/media/c043/Drive/borg"
+REPO_BASE="/run/media/c043/Drive/borg"
 
 HOST="$(hostname -s)"
 REPO="ssh://${BACKUP_USER}@${BACKUP_HOST}${REPO_BASE}/${HOST}"
