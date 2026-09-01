@@ -13,3 +13,5 @@ urls.txt
 state.json
 comicBookWorkflowOptimized.json
 pullList.json
+
+*.log
