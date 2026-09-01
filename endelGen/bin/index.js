@@ -3,6 +3,7 @@
 import puppeteer from "puppeteer";
 import { Mailsac } from "@mailsac/api";
 import dotenv from "dotenv";
+import { existsSync } from "fs";
 import { dirname, parse, resolve } from "path";
 import { fileURLToPath } from "url";
 import * as readline from "node:readline/promises";
@@ -56,11 +57,21 @@ const getNewCode = async (email, messagesCount) => {
   }
 };
 
+const resolveExecutablePath = () => {
+  const candidates = [
+    process.env.PUPPETEER_EXECUTABLE_PATH,
+    "/run/current-system/sw/bin/chromium",
+    "/Applications/Chromium.app/Contents/MacOS/Chromium",
+    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+  ].filter(Boolean);
+  // Return the first browser that actually exists; undefined lets puppeteer
+  // fall back to its own bundled Chrome.
+  return candidates.find(p => existsSync(p)) || undefined;
+};
+
 const createAccount = async email => {
   const browser = await puppeteer.launch({
-    executablePath:
-      process.env.PUPPETEER_EXECUTABLE_PATH ||
-      "/run/current-system/sw/bin/chromium",
+    executablePath: resolveExecutablePath(),
     headless: false,
     args: ["--no-sandbox", "--disable-setuid-sandbox"]
   });
