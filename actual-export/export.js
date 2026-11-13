@@ -31,6 +31,17 @@ async function main() {
 
     fs.writeFileSync(outFile, data);
     console.log(`Exported ${data.length} bytes to ${outFile}`);
+
+    // Keep only the newest KEEP backups (date-stamped names sort chronologically)
+    const keep = Number(process.env.ACTUAL_BACKUP_KEEP) || 10;
+    const old = fs.readdirSync(outDir)
+      .filter(f => /^actual-\d{4}-\d{2}-\d{2}\.zip$/.test(f))
+      .sort()
+      .slice(0, -keep);
+    for (const f of old) {
+      fs.unlinkSync(path.join(outDir, f));
+      console.log(`Deleted old backup ${f}`);
+    }
   } finally {
     await api.shutdown();
   }
