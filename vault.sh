@@ -7,6 +7,6 @@ if [ "$OS" == "Linux" ]; then
     cd ./Sync
     nvim
 elif [ "$OS" == "Darwin" ]; then
-    cd '/Users/ultramaggot/Obsidian Vault'
+    cd '/Users/c043/Sync'
     nvim
 fi

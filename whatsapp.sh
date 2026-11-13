@@ -1,3 +1,3 @@
 #!/bin/sh
 
-nohup vivaldi --new-window "https://web.whatsapp.com" > /dev/null 2>&1 &
+nohup firefox --new-window "https://web.whatsapp.com" > /dev/null 2>&1 &
